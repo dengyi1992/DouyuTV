@@ -63,7 +63,7 @@ function doGET(room_id) {
                 var zhubotag = $('.live-room .relate-text .r-else-tag dd').toArray();
                 var len = zhubotag.length;
                 for (var i = 0; i < len; i++) {
-                    zhubotag[i].children["1"].attribs.title + ','
+                    tags=tags+zhubotag[i].children["1"].attribs.title + ','
                 }
                 //var room = new Room(optionsfordetail.url,zb_name[0].children[0].data,roomname[0].children[0].data,tags);
 
