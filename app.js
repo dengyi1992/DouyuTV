@@ -58,12 +58,24 @@ app.use(function (err, req, res, next) {
     });
 });
 rule.second = times;
-for (var i = 0; i < 60; i = i + 10) {
+for (var i = 0; i < 60; i = i + 20) {
     times.push(i);
 }
+// schedule.scheduleJob(rule, function () {
+//     var page = timeTask.timeTask1();
+//     if (page > 40) {
+//         this.cancel()
+//
+//     }
+//     console.log("------------" + new Date())
+// });
 schedule.scheduleJob(rule, function () {
     timeTask.timeTask();
-    console.log("------------" + new Date())
+    // if (page > 40) {
+    //     this.cancel()
+    //
+    // }
+    console.log("------更新tags------" + new Date())
 });
 
 module.exports = app;
