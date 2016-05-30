@@ -18,7 +18,7 @@ exports.timeTask = function () {
     };
     request(options1, function (error, response, body) {
         console.log(new Date());
-        start = start + 20
+        start = start + 1;
     });
 
 };

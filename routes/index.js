@@ -20,7 +20,7 @@ router.get('/', function (req, res, next) {
     }
     var page = req.query.page;
     res.json({msg: "getit"});
-    var limit_range = (page - 1) * 10 + ',' + page * 10;
+    var limit_range = (page - 1) * 5 + ',' + page * 5;
     var userAddSql = 'SELECT * FROM dy ORDER BY id desc limit ' + limit_range + ';';
     conn.query(userAddSql, function (err, rows, fields) {
         if (err) throw err;
@@ -55,7 +55,7 @@ function doGET(room_id) {
         if (!error && response.statusCode == 200) {
             try {
                 var $ = cheerio.load(body);  //cheerio解析data
-                var tags = [];
+                var tags = '';
                 var roomname = $('head title').toArray();
                 if (roomname["0"].children["0"].data == "提示信息 -斗鱼") {
                     return;
@@ -63,11 +63,11 @@ function doGET(room_id) {
                 var zhubotag = $('.live-room .relate-text .r-else-tag dd').toArray();
                 var len = zhubotag.length;
                 for (var i = 0; i < len; i++) {
-                    tags.push({tag: zhubotag[i].children["1"].attribs.title})
+                    zhubotag[i].children["1"].attribs.title + ','
                 }
                 //var room = new Room(optionsfordetail.url,zb_name[0].children[0].data,roomname[0].children[0].data,tags);
-                var mTags = JSON.stringify(tags);
-                myEvents.emit('updateTags', mTags,room_id);
+
+                myEvents.emit('updateTags', tags, room_id);
 
 
             } catch (e) {
@@ -77,11 +77,11 @@ function doGET(room_id) {
         }
     });
 }
-myEvents.on('updateTags', function (mTags,room_id) {
+myEvents.on('updateTags', function (mTags, room_id) {
     var updateSql = 'UPDATE dy SET tags = ? WHERE room_id = ?';
-    var updateParams=[mTags,room_id];
-    conn.query(updateSql,updateParams,function (err, result) {
-        if (err){
+    var updateParams = [mTags, room_id];
+    conn.query(updateSql, updateParams, function (err, result) {
+        if (err) {
             return console.log(err);
         }
 
