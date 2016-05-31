@@ -6,6 +6,8 @@ var myEvents = new EventEmitter();
 var router = express.Router();
 var Room = require('../models/room.js');
 var mysql = require('mysql');
+var getIp=require('../controler/getIp');
+var Proxy = require('../controler/proxylist');
 var conn = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -21,7 +23,7 @@ router.get('/', function (req, res, next) {
     var page = req.query.page;
     res.json({msg: "getit"});
     var limit_range = (page - 1) * 5 + ',' + page * 5;
-    var userAddSql = 'SELECT * FROM dy ORDER BY id desc limit ' + limit_range + ';';
+    var userAddSql = 'SELECT * FROM dy limit ' + limit_range + ';';
     conn.query(userAddSql, function (err, rows, fields) {
         if (err) throw err;
         for (var i = 0; i < rows.length; i++) {
@@ -48,6 +50,7 @@ myEvents.on('geted', function (room_id) {
 function doGET(room_id) {
     var optionsfordetail = {
         method: 'GET',
+        proxy:Proxy.GetProxy(),
         encoding: null,
         url: "http://www.douyu.com/" + room_id
     };
@@ -63,7 +66,7 @@ function doGET(room_id) {
                 var zhubotag = $('.live-room .relate-text .r-else-tag dd').toArray();
                 var len = zhubotag.length;
                 for (var i = 0; i < len; i++) {
-                    tags=tags+zhubotag[i].children["1"].attribs.title + ','
+                    tags = tags + zhubotag[i].children["1"].attribs.title + ','
                 }
                 //var room = new Room(optionsfordetail.url,zb_name[0].children[0].data,roomname[0].children[0].data,tags);
 
@@ -154,6 +157,13 @@ function acquireData(data) {
 
     });
 }
+
+
+router.get('/getip', function (req, res, next) {
+    getIp.getIp();
+    res.json({msg: '获取中....'})
+
+});
 
 
 module.exports = router;

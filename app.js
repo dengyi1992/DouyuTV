@@ -58,7 +58,7 @@ app.use(function (err, req, res, next) {
     });
 });
 rule.second = times;
-for (var i = 0; i < 60; i = i + 30) {
+for (var i = 0; i < 60; i = i + 5) {
     times.push(i);
 }
 // schedule.scheduleJob(rule, function () {
