@@ -7,7 +7,7 @@ var count = 0;
 
 //var start =11111;
 //var start =18955;
-var start = 320;
+var start = 1;
 var page = 0;
 exports.timeTask = function () {
 

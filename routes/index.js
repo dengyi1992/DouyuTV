@@ -22,7 +22,7 @@ router.get('/', function (req, res, next) {
     }
     var page = req.query.page;
     res.json({msg: "getit"});
-    var limit_range = (page - 1) * 5 + ',' + page * 5;
+    var limit_range = (page - 1) * 10 + ',' + 20;
     var userAddSql = 'SELECT * FROM dy limit ' + limit_range + ';';
     conn.query(userAddSql, function (err, rows, fields) {
         if (err) throw err;
@@ -50,7 +50,6 @@ myEvents.on('geted', function (room_id) {
 function doGET(room_id) {
     var optionsfordetail = {
         method: 'GET',
-        proxy:Proxy.GetProxy(),
         encoding: null,
         url: "http://www.douyu.com/" + room_id
     };
